@@ -1,0 +1,35 @@
+.IncomingCall{
+    display: flex;
+    background: #010000d6;
+    color: white;
+    height: 100vh;
+    flex-direction: column;
+}
+.upper{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.upper>:nth-child(1){
+    width: 6rem;
+    height: 6rem;
+}
+.lower{
+    display: flex;
+    flex: 1;
+    
+    justify-content: center;
+    align-items: center;
+}
+.lower>:nth-child(1){
+    width: 28%;
+}
+@media screen and (max-width: 480px) {
+    .lower>:nth-child(1) {
+      width: 90%;
+      justify-content: center;
+      align-items: center;
+    }
+  }
