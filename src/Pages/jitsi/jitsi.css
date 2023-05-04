@@ -1,8 +1,14 @@
-
+body{
+    height: 100%;
+}
+.Jitsi{
+    height: 100%;
+}
 .item-center{
     display: flex;
     flex-direction: column;
     position: relative;
+    height: 100%;
 }
 .extend-call{
     display: flex;

@@ -220,7 +220,10 @@ import CallEndIcon from "@mui/icons-material/CallEnd";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import CachedIcon from "@mui/icons-material/Cached";
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import axios from "axios";  
+import CustomizedMenus from "../../Components/MenuItems/MenuItems";
+
 
 
 const Jitsi = () => {
@@ -258,7 +261,7 @@ const Jitsi = () => {
     const options = {
       roomName: room,
       width: "100%",
-      height: 600,
+      height: '100%',
       parentNode: document.querySelector("#jitsi-iframe"),
 
       configOverwrite: {
@@ -452,6 +455,9 @@ const Jitsi = () => {
       setVideo((prev) => !prev);
     }
   };
+  const handleAudio = () =>{
+    
+  }
   return (
     <div className="Jitsi">
       <div className="item-center" id="jitsi-iframe">
@@ -484,6 +490,14 @@ const Jitsi = () => {
           >
             {audio ? <MicIcon /> : <MicOffIcon />}
           </button>
+          {/* <button
+            className="extend-btn camera-roll"
+            onClick={() => handleAudio}
+          >
+            <AudiotrackIcon/>
+          </button> */}
+          <CustomizedMenus />
+         
         </div>
       </div>
     </div>
