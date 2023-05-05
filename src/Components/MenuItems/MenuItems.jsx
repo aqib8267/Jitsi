@@ -55,16 +55,35 @@ const StyledMenu = styled((props) => (
 
 export default function CustomizedMenus() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [audioDevices, setAudioDevices] = React.useState([]);
   const open = Boolean(anchorEl);
+
+
+  React.useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+      const audioDevices = devices.filter(device =>  device.kind === 'audiooutput' && (device.label.split(" ")[0]==="Headphones" || device.label.split(" ")[0]==="Speakers"));
+      
+      setAudioDevices(audioDevices);
+      
+    });
+  }, []);
+  // const uniqueLabels = Array.from(new Set(audioDevices.map(device => device.label)));
+  // console.log(uniqueLabels);
+  // console.log(audioDevices);
+  
+
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     
   };
+
+
   const handleClose = (e) => {
     setAnchorEl(null);
     // console.log(e.target.textContent);
-   
   };
+
 
   return (
     <div>
@@ -92,20 +111,32 @@ export default function CustomizedMenus() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose} disableRipple>
-          <HeadphonesIcon />
-          Headphone
-        </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
-          <KeyboardVoiceIcon />
-          MicroPhone
-        </MenuItem>
+
+        
         {/* <Divider sx={{ my: 0.5 }} /> */}
         
-        <MenuItem onClick={handleClose} disableRipple>
-          <CampaignIcon />
-          Speacker
-        </MenuItem>
+       
+      
+          {audioDevices.map(device => (
+            // <MenuItem key={device.deviceId} onClick={handleClose} disableRipple>
+            //   {/* {device.kind.includes("audiooutput")  ?  <CampaignIcon /> : <HeadphonesIcon />} */}
+            //   {/* {device.label.includes("Headphones")?"Headphones" : device.label.includes("Speakers") ? " Speaker" : ""} */}
+            //   {device.label.split(" ")[0]==="Headphones"?"Headphones" : device.label.split(" ")[0]==="Speakers" ? " Speaker":""}
+              
+            // </MenuItem>
+            (device.label.includes("Headphones")) ? (
+              <MenuItem key={device.deviceId} onClick={handleDeviceChange(device.deviceId)} disableRipple>
+                <HeadphonesIcon />
+                Headphones
+              </MenuItem>
+            ) : (device.label.includes("Speaker")) ? (
+              <MenuItem key={device.deviceId} onClick={handleDeviceChange(device.deviceId)} disableRipple>
+                <CampaignIcon />
+                Speaker
+              </MenuItem>
+            ) : null
+          ))}
+        
       </StyledMenu>
     </div>
   );
