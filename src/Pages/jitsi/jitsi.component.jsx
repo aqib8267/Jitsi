@@ -229,6 +229,7 @@ const Jitsi = () => {
     const [call_duration_actual, setCall_duration_actual] = useState(null);
     const [event_name, setEvent_name] = useState("");
     const [data, setData] = useState({});
+  
 
     useEffect(() => {
         // console.log(window.location.href);
@@ -266,11 +267,11 @@ const Jitsi = () => {
             lang: "en",
         };
 
-        const api = new window.JitsiMeetExternalAPI(domain, options);
+        const api= new window.JitsiMeetExternalAPI(domain,options);
         const date = new Date(); // Replace this with your own Date object
         const timestamp = date.toISOString().replace("T", " ").replace("Z", "");
         setInitiated_at(timestamp);
-        console.log(api);
+        // console.log(api);
        
     
 
@@ -451,16 +452,30 @@ const Jitsi = () => {
             setVideo((prev) => !prev);
         }
     };
-
-    const handleAudio = () => {};
+    // console.log(inputLabel);
+   const callback=(data)=>{
+    // console.log(data);
+    if(data.inputLabel && data.inputDeviceId){
+         api.setAudioInputDevice(data.inputLabel, data.inputDeviceId);
+    }
+   if(data.outputLabel && data.outputDeviceId){
+    api.setAudioOutputDevice(data.outputLabel, data.outputDeviceId);
+   }
+   }
     return (
         <div className="Jitsi">
             <div className="item-center" id="jitsi-iframe">
                 <div className="extend-call">
                     {isModerator === "agent" ? (
-                        <button className="extend-btn">
+                        <button className="extend-btn extend-agent">
                             {" "}
-                            <AddIcCallIcon /> Extend Call{" "}
+                            <AddIcCallIcon /> 
+                            <div style={{display:"flex", gap:'4px'}}>
+                                <span>Extend</span>
+                            <span>Call</span>
+                            </div>
+                            
+                            
                         </button>
                     ) : (
                         ""
@@ -492,7 +507,7 @@ const Jitsi = () => {
             <AudiotrackIcon/>
           </button> */}
                     {/* <CustomizedMenus  */}
-                    <BasicModal />
+                    <BasicModal handleCallback={callback}/>
                 </div>
             </div>
         </div>

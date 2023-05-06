@@ -159,7 +159,7 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal(props) {
     const [open, setOpen] = React.useState(false);
     const [InputAudio, setInputAudio] = React.useState('');
     const [outputAudio,setOutputAudio]=React.useState('');
@@ -167,6 +167,11 @@ export default function BasicModal() {
     const [audioDevices, setAudioDevices] = React.useState([]);
     const [input,setInput]=React.useState([]);
     const [output,setOutput]=React.useState([]);
+
+    const [inputLabel,setInputLabel]=React.useState('');
+    const [inputDeviceId,setInputDeviceId]=React.useState('');
+    const [outputLabel,setOutputLabel]=React.useState('');
+    const [outputDeviceId,setOutputDeviceId]=React.useState('');
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -190,17 +195,43 @@ export default function BasicModal() {
             setOutput(audioOut);
               setAudioDevices(audioDevices);
           });
-        }, []);
+        }, [open]);
         // console.log(InputAudio.length);
-        console.log(input);
-        console.log(output);
+        // console.log(input);
+        // console.log(output);
 
     const handleChangeInput = (event) => {
       setInputAudio(event.target.value);
+      setInputLabel(event.target.value);
+
+      {
+        input.map((device)=>
+             {device.label===event.target.value? setInputDeviceId(device.deviceId):setInputDeviceId("default")}
+            // console.log(device.kind)
+        )
+      }
+      
+      
     };
+    // console.log({inputLabel,inputDeviceId});
     const handleChangeOutput = (event) => {
       setOutputAudio(event.target.value);
+      setOutputLabel(event.target.value);
+
+      {
+        output.map((device)=>
+              {device.label===event.target.value? setOutputDeviceId(device.deviceId):setOutputDeviceId("default")}
+            // console.log(device.label)
+        )
+      }
     };
+
+   
+    // console.log({outputLabel,outputDeviceId});
+    const SendData=()=>{
+        props.handleCallback({inputLabel,inputDeviceId,outputLabel,outputDeviceId});
+        handleClose();
+    }
 
     return (
         <div>
@@ -248,12 +279,13 @@ export default function BasicModal() {
                             >
                               {
                                 input.map((device)=>
-                                  <MenuItem value={device.label}>{device.label}</MenuItem>
+                                  <MenuItem value={device.label} >{device.label}</MenuItem>
                                 )
                               }
                                 
                                
                             </Select>
+                            
                         </FormControl>
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 5, mb:3 }}>
@@ -276,7 +308,7 @@ export default function BasicModal() {
                             </Select>
                         </FormControl>
                     </Typography>
-                    <Button variant="contained">Ok</Button>
+                    <Button variant="contained" onClick={SendData}>Ok</Button>
                 </Box>
             </Modal>
         </div>
