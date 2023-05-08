@@ -195,7 +195,7 @@ export default function BasicModal(props) {
             setOutput(audioOut);
               setAudioDevices(audioDevices);
           });
-        }, [open]);
+        }, [open,audioDevices]);
         // console.log(InputAudio.length);
         // console.log(input);
         // console.log(output);
